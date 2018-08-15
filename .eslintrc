@@ -1,0 +1,52 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "extends": "airbnb",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "settings": {
+    "import/parser": "babel-eslint"
+  },
+  "rules": {
+    "comma-dangle": ["error", "never"],
+    "arrow-parens": ["error", "as-needed"],
+    "import/no-extraneous-dependencies": ["off", "never"],
+    "import/no-dynamic-require": ["off", "never"],
+    "global-require": ["off", "never"],
+    "one-var": ["off", "never"],
+    "camelcase": ["off", "never"],
+    "no-shadow": ["off", "never"],
+    "linebreak-style": ["off", "unix"],
+    "no-bitwise": ["off", "never"],
+    "no-mixed-operators": ["off", "never"],
+    "no-underscore-dangle": ["off", "never"],
+    "max-len": ["error", 130],
+    "no-unused-expressions": ["error", {
+      "allowShortCircuit": true
+    }],
+    "eqeqeq": ["off", "never"],
+    "class-methods-use-this": 0,
+    "react/jsx-filename-extension": ["error", {
+      "extensions": [".js", ".jsx"]
+    }],
+    "react/forbid-prop-types": ["off", "never"],
+    "react/prop-types": ["off", "never"],
+    "react/no-array-index-key": ["off", "never"],
+    "react/no-did-mount-set-state": ["off", "never"],
+    "jsx-a11y/no-static-element-interactions": ["off", "never"],
+    "jsx-a11y/click-events-have-key-events": ["off", "never"], // div的onclik事件，以后删掉
+    "jsx-a11y/no-noninteractive-element-interactions": ["off", "never"],
+    "jsx-a11y/alt-text": ["off", "never"],
+    "jsx-a11y/label-has-for": ["off", "never"],
+    "jsx-a11y/media-has-caption": ["off", "never"],
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
+    "no-plusplus": ["off", "nerver"],
+    "no-console": ["off", "nerver"]
+  }
+}
