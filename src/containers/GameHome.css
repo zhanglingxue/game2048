@@ -1,0 +1,100 @@
+body{
+  background: #76b39d;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+}
+.containerContent{
+  width: 700px;
+  margin: 0 auto 0 auto;
+}
+.heading:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.title{
+  font-size: 80px;
+  font-weight: bold;
+  margin: 0;
+  display: block;
+  float: left;
+}
+.score_container{
+  float: right;
+}
+.scores, .bestScore {
+  position: relative;
+  display: inline-block;
+  background: #155e63;
+  padding: 50px 45px;
+  font-size: 25px;
+  height: 25px;
+  line-height: 47px;
+  font-weight: bold;
+  border-radius: 5px;
+  color: white;
+  margin-top: 8px;
+  margin-left:8px;
+  text-align: center;
+}
+.scores:after {
+  content: "Scores";
+}
+.bestScore:after {
+  content: "Best Score";
+}
+.scores:after, .bestScore:after {
+  position: absolute;
+  width: 100%;
+  top: 10px;
+  left: 0;
+  font-size: 13px;
+  line-height: 13px;
+  color: #eee4da;
+}
+.game_infor{
+  display: flex;
+}
+.game_infor:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.game_intro{
+  float: left;
+  line-height: 25px;
+  margin-bottom: 0;
+  font-weight: bold;
+  margin-top:10px;
+  flex: 3;
+}
+.resart_button{
+  flex: 1;
+  float: right;
+  display: inline-block;
+  background: #8f7a66;
+  border-radius: 3px;
+  padding: 0 20px;
+  margin-top:10px;
+  font-size: 25px;
+  font-weight: bolder;
+  color: #f9f6f2;
+  height: 50px;
+  line-height: 50px;
+  cursor: pointer;
+  text-align: center;
+}
+.control_view{
+  width: 700px;
+  margin-top: 35px;
+}
+.control_button{
+  float: right;
+  width:300px;
+  margin-top: 150px;
+}
+.ant-btn{
+  margin-left:10px;
+  width:60px;
+  height:50px;
+  
+}

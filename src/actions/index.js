@@ -1,13 +1,42 @@
 import * as ActionTypes from '../const/ActionTypes';
 
-export function add() {
+function fetchResart() {
   return {
-    type: ActionTypes.ADD
+    type: ActionTypes.FEFRESH_DATA
+  };
+}
+function fetchGetData() {
+  return {
+    type: ActionTypes.FEFRESH_GET_DATA
+  };
+}
+function fetchCanculNum() {
+  return {
+    type: ActionTypes.CANCUL_LEFT_NUM
+  };
+}
+function fetchRightCanculNum() {
+  return {
+    type: ActionTypes.CANCUL_RIGHT_NUM
   };
 }
 
-export function remove() {
+function fetchTopCanculNum() {
   return {
-    type: ActionTypes.REMOVE
+    type: ActionTypes.CANCUL_TOP_NUM
   };
 }
+
+function fetchBottomCanculNum() {
+  return {
+    type: ActionTypes.CANCUL_BOTTOM_NUM
+  };
+}
+export {
+  fetchResart,
+  fetchGetData,
+  fetchCanculNum,
+  fetchRightCanculNum,
+  fetchTopCanculNum,
+  fetchBottomCanculNum
+};
