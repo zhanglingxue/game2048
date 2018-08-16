@@ -74,29 +74,31 @@ function Matrix(state = {
     case ActionTypes.CANCUL_LEFT_NUM: { // 向左走
       // keyCode(↑：38，←：37，→：39，↓：40)
       const newState = { ...state };
+      const matrix = state.matrix.slice();
       let sum = state.score;
       const allArr = [];
-      state.matrix.map(item => {
+      matrix.map(item => {
         const array = [];
+        let index = 0;
+        for (let i = 0; i < row;) {
+          if (item[i] !== item[index + 1] && item[index + 1] !== 0) {
+            i++;
+            index = i;
+          } else if (item[i] !== item[index + 1] && item[index + 1] === 0) {
+            index += 1;
+          } else if (item[i] === item[index + 1]) {
+            item[i] += item[index + 1];
+            sum += item[index + 1] * 2;
+            item[index + 1] = 0;
+            i = index + 2;
+            index = i;
+          }
+        }
         item.map(idx => {
           if (idx !== 0) {
             array.push(idx); // 把除0以外的num拿出来
           }
         });
-        for (let i = 1; i < array.length; i++) { // 计算相同num
-          if (array[i] === array[i - 1]) {
-            array[i - 1] += array[i];
-            sum += array[i] * 2;
-            array[i] = 0;
-            i += 2;
-          }
-        }
-        for (let i = 0; i < array.length; i++) { // 计算后去除0位，即0与后一位元素换位
-          if (array[i] === 0 && (i !== array.length - 1)) {
-            array[i] = array[i + 1];
-            array[i + 1] = 0;
-          }
-        }
         while (array.length < row) {
           array.push(0);
         }
@@ -109,29 +111,31 @@ function Matrix(state = {
     }
     case ActionTypes.CANCUL_RIGHT_NUM: { // 向右走
       const newState = { ...state };
+      const matrix = state.matrix.slice();
       let sum = state.score;
       const allArr = [];
-      state.matrix.map(item => {
+      matrix.map(item => {
         const array = [];
+        let index = row - 1;
+        for (let i = row - 1; i > 0;) {
+          if (item[i] !== item[index - 1] && item[index - 1] !== 0) {
+            i--;
+            index = i;
+          } else if (item[i] !== item[index - 1] && item[index - 1] === 0) {
+            index -= 1;
+          } else if (item[i] === item[index - 1]) {
+            item[i] += item[index - 1];
+            sum += item[index - 1] * 2;
+            item[index - 1] = 0;
+            i = index - 2;
+            index = i;
+          }
+        }
         item.map(idx => {
           if (idx !== 0) {
-            array.push(idx);
+            array.push(idx); // 把除0以外的num拿出来
           }
         });
-        for (let i = array.length - 1; i > 0; i--) {
-          if (array[i] === array[i - 1]) {
-            array[i] += array[i - 1];
-            sum += array[i - 1] * 2;
-            array[i - 1] = 0;
-            i -= 2;
-          }
-        }
-        for (let i = array.length - 1; i > 0; i--) {
-          if (array[i] === 0) {
-            array[i] = array[i - 1];
-            array[i - 1] = 0;
-          }
-        }
         while (array.length < row) {
           array.unshift(0);
         }
@@ -147,31 +151,39 @@ function Matrix(state = {
       let sum = state.score;
       const array = newState.matrix.slice();
       for (let i = 0; i < col; i++) {
-        const newArr = [];
-        for (let j = 0; j < row; j++) {
-          if (array[j][i] !== 0) {
-            newArr.push(array[j][i]);
+        let index = 0;
+        let j = 0;
+        while (j < row && index + 1 < row) {
+          if (array[j][i] !== array[index + 1][i] && array[index + 1][i] !== 0) {
+            j++;
+            index = j;
+          } else if (array[j][i] !== array[index + 1][i] && array[index + 1][i] === 0) {
+            index += 1;
+          } else if (array[j][i] === array[index + 1][i]) {
+            array[j][i] += array[index + 1][i];
+            sum += array[index + 1][i] * 2;
+            array[index + 1][i] = 0;
+            j = index + 2;
+            if (j >= row) {
+              break;
+            }
+            index = j;
           }
         }
-        for (let i = 1; i < newArr.length; i++) {
-          if (newArr[i] === newArr[i - 1]) {
-            newArr[i - 1] += newArr[i];
-            sum += newArr[i] * 2;
-            newArr[i] = 0;
-            i += 2;
+        let m = 0;
+        let newIndex = 0;
+        while (m < row && newIndex + 1 < row) {
+          if (array[m][i] !== 0) {
+            m++;
+            newIndex = m;
+          } else if (array[m][i] === 0 && array[newIndex + 1][i] !== 0) {
+            array[m][i] = array[newIndex + 1][i];
+            array[newIndex + 1][i] = 0;
+            m++;
+            newIndex = m;
+          } else if (array[m][i] === 0 && array[newIndex + 1][i] === 0) {
+            newIndex += 1;
           }
-        }
-        for (let i = 0; i < newArr.length; i++) {
-          if (newArr[i] === 0 && (i !== newArr.length - 1)) {
-            newArr[i] = newArr[i + 1];
-            newArr[i + 1] = 0;
-          }
-        }
-        while (newArr.length < col) {
-          newArr.push(0);
-        }
-        for (let m = 0; m < newArr.length; m++) {
-          array[m][i] = newArr[m];
         }
       }
       newState.matrix = array;
@@ -184,31 +196,39 @@ function Matrix(state = {
       let sum = state.score;
       const array = newState.matrix.slice();
       for (let i = 0; i < col; i++) {
-        const newArr = [];
-        for (let j = row - 1; j >= 0; j--) {
-          if (array[j][i] !== 0) {
-            newArr.unshift(array[j][i]);
+        let index = row - 1;
+        let j = row - 1;
+        while (j > 0 && index - 1 >= 0) {
+          if (array[j][i] !== array[index - 1][i] && array[index - 1][i] !== 0) {
+            j--;
+            index = j;
+          } else if (array[j][i] !== array[index - 1][i] && array[index - 1][i] === 0) {
+            index -= 1;
+          } else if (array[j][i] === array[index - 1][i]) {
+            array[j][i] += array[index - 1][i];
+            sum += array[index - 1][i] * 2;
+            array[index - 1][i] = 0;
+            j = index - 2;
+            if (j <= 0) {
+              break;
+            }
+            index = j;
           }
         }
-        for (let k = newArr.length - 1; k > 0; k--) {
-          if (newArr[k] === newArr[k - 1]) {
-            newArr[k] += newArr[k - 1];
-            sum += newArr[k - 1] * 2;
-            newArr[k - 1] = 0;
-            k -= 2;
+        let m = row - 1;
+        let newIndex = row - 1;
+        while (m > 0 && newIndex - 1 >= 0) {
+          if (array[m][i] !== 0) {
+            m--;
+            newIndex = m;
+          } else if (array[m][i] === 0 && array[newIndex - 1][i] !== 0) {
+            array[m][i] = array[newIndex - 1][i];
+            array[newIndex - 1][i] = 0;
+            m--;
+            newIndex = m;
+          } else if (array[m][i] === 0 && array[newIndex - 1][i] === 0) {
+            newIndex -= 1;
           }
-        }
-        for (let m = newArr.length - 1; m > 0; m--) {
-          if (newArr[m] === 0) {
-            newArr[m] = array[m - 1];
-            newArr[m - 1] = 0;
-          }
-        }
-        while (newArr.length < col) {
-          newArr.unshift(0);
-        }
-        for (let m = 0; m < newArr.length; m++) {
-          array[m][i] = newArr[m];
         }
       }
       newState.matrix = array;
