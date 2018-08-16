@@ -54,6 +54,7 @@ function Matrix(state = {
   const col = state.matrix.length;
   switch (action.type) {
     case ActionTypes.FEFRESH_GET_DATA: { // 初始化生成矩阵
+      console.log(state.matrix)
       const newState = { ...state };
       const newArr = publicFunc(newState);
       return newArr;

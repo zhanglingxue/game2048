@@ -9,20 +9,13 @@ import MainGameView from '../components/MainGame';
 import './GameHome.css';
 
 class GameHome extends React.Component {
-  componentDidMount = () => {
+  componentWillMount = () => {
     const { gameActions } = this.props;
     gameActions.fetchGetData();
   }
   render() {
     const { gameActions } = this.props;
-    // document.addEventListener('keyup', e => {
-    //   const { gameActions } = this.props;
-    //   if (e.keyCode === 37 || e.keyCode === 38
-    //   || e.keyCode === 39 || e.keyCode === 40) {
-    //     console.log("2222222")
-    //     gameActions.fetchCanculNum(e.keyCode);
-    //   }
-    // });
+    console.log(this.props.entities.Matrix.matrix);
     return (
       <div className="containerContent">
         <TopCountView />

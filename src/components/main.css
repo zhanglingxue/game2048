@@ -9,7 +9,7 @@
   border-radius: 6px;
 }
 .game_container div {
-  background: #455d7a;
+  background: #97cba9;
   opacity: 0.73;
   float: left;
   margin: 12px 0 0 12px;
@@ -22,6 +22,33 @@
   font-size: 35px;
   font-weight: bold;
 }
-.active{
-  background: red!important;
+.two_two_color{
+  background:#f67280!important;
+}
+.two_three_color{
+  background:#c06c84!important;
+}
+.two_four_color{
+  background:#ea5f2d!important;
+}
+.two_five_color{
+  background:#bb3939!important;
+}
+.two_six_color{
+  background:#860f44!important;
+}
+.two_seven_color{
+  background:#c86b85!important;
+}
+.two_eight_color{
+  background:#d56073!important;
+}
+.two_nine_color{
+  background:#6c5b7b!important;
+}
+.two_ten_color{
+  background:#0f4471!important;
+}
+.last_color{
+  background:#113a5d!important;
 }

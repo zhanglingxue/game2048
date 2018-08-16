@@ -20,6 +20,14 @@ export default class ControlButton extends React.Component {
     gameActions.fetchBottomCanculNum();
   }
   render() {
+    document.addEventListener('keydown', e => {
+      // const { gameActions } = this.props;
+      // if (e.keyCode === 37 || e.keyCode === 38
+      // || e.keyCode === 39 || e.keyCode === 40) {
+      //   console.log(e.keyCode);
+      //   gameActions.fetchKeyCodeNum(e.keyCode);
+      // }
+    });
     return (
       <div className="control_button">
         <Button onClick={this.handleLeftButton} type="primary">

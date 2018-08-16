@@ -32,11 +32,25 @@ function fetchBottomCanculNum() {
     type: ActionTypes.CANCUL_BOTTOM_NUM
   };
 }
+
+function fetchKeyCodeNum(keycode) {
+  switch (keycode) {
+    case 37: {
+      return {
+        type: ActionTypes.CANCUL_LEFT_NUM
+      };
+    }
+    default: {
+      break;
+    }
+  }
+}
 export {
   fetchResart,
   fetchGetData,
   fetchCanculNum,
   fetchRightCanculNum,
   fetchTopCanculNum,
-  fetchBottomCanculNum
+  fetchBottomCanculNum,
+  fetchKeyCodeNum
 };

@@ -16,14 +16,43 @@ export default class MainGame extends React.Component {
     }));
   }
   addClassName = num => {
-    if (num === 2) {
-      return 'game_container';
-    } else if (num === 4) {
-      return 'active';
-    } else if (num === 8) {
-      return '';
-    } else if (num === 16) {
-      return '';
+    switch (num) {
+      case 2: {
+        return 'game_container';
+      }
+      case 4: {
+        return 'two_two_color';
+      }
+      case 8: {
+        return 'two_three_color';
+      }
+      case 16: {
+        return 'two_four_color';
+      }
+      case 32: {
+        return 'two_five_color';
+      }
+      case 64: {
+        return 'two_six_color';
+      }
+      case 128: {
+        return 'two_seven_color';
+      }
+      case 256: {
+        return 'two_eight_color';
+      }
+      case 512: {
+        return 'two_nine_color';
+      }
+      case 1024: {
+        return 'two_ten_color';
+      }
+      case 2048: {
+        return 'last_color';
+      }
+      default: {
+        return '';
+      }
     }
   }
   render() {
