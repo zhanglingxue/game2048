@@ -18,37 +18,37 @@ export default class MainGame extends React.Component {
   addClassName = num => {
     switch (num) {
       case 2: {
-        return 'game_container';
+        return 'game_container active';
       }
       case 4: {
-        return 'two_two_color';
+        return 'two_two_color active';
       }
       case 8: {
-        return 'two_three_color';
+        return 'two_three_color active';
       }
       case 16: {
-        return 'two_four_color';
+        return 'two_four_color active';
       }
       case 32: {
-        return 'two_five_color';
+        return 'two_five_color active';
       }
       case 64: {
-        return 'two_six_color';
+        return 'two_six_color active';
       }
       case 128: {
-        return 'two_seven_color';
+        return 'two_seven_color active';
       }
       case 256: {
-        return 'two_eight_color';
+        return 'two_eight_color active';
       }
       case 512: {
-        return 'two_nine_color';
+        return 'two_nine_color active';
       }
       case 1024: {
-        return 'two_ten_color';
+        return 'two_ten_color active';
       }
       case 2048: {
-        return 'last_color';
+        return 'last_color active';
       }
       default: {
         return '';

@@ -5,11 +5,6 @@ function fetchResart() {
     type: ActionTypes.FEFRESH_DATA
   };
 }
-function fetchGetData() {
-  return {
-    type: ActionTypes.FEFRESH_GET_DATA
-  };
-}
 function fetchCanculNum() {
   return {
     type: ActionTypes.CANCUL_LEFT_NUM
@@ -33,24 +28,10 @@ function fetchBottomCanculNum() {
   };
 }
 
-function fetchKeyCodeNum(keycode) {
-  switch (keycode) {
-    case 37: {
-      return {
-        type: ActionTypes.CANCUL_LEFT_NUM
-      };
-    }
-    default: {
-      break;
-    }
-  }
-}
 export {
   fetchResart,
-  fetchGetData,
   fetchCanculNum,
   fetchRightCanculNum,
   fetchTopCanculNum,
-  fetchBottomCanculNum,
-  fetchKeyCodeNum
+  fetchBottomCanculNum
 };

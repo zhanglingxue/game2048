@@ -20,28 +20,52 @@ export default class ControlButton extends React.Component {
     gameActions.fetchBottomCanculNum();
   }
   render() {
-    document.addEventListener('keydown', e => {
-      // const { gameActions } = this.props;
-      // if (e.keyCode === 37 || e.keyCode === 38
-      // || e.keyCode === 39 || e.keyCode === 40) {
-      //   console.log(e.keyCode);
-      //   gameActions.fetchKeyCodeNum(e.keyCode);
-      // }
-    });
+    document.onkeyup = e => {
+      // keyCode(↑：38，←：37，→：39，↓：40)
+      switch (e.keyCode) {
+        case 37: {
+          this.handleLeftButton();
+          break;
+        }
+        case 39: {
+          this.handleRightButton();
+          break;
+        }
+        case 38: {
+          this.handleTopButton();
+          break;
+        }
+        case 40: {
+          this.handleBottomButton();
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    };
     return (
       <div className="control_button">
-        <Button onClick={this.handleLeftButton} type="primary">
-          <Icon type="arrow-left" />
-        </Button>
-        <Button onClick={this.handleRightButton} type="primary">
-          <Icon type="arrow-right" />
-        </Button>
-        <Button onClick={this.handleTopButton} type="primary">
-          <Icon type="arrow-up" />
-        </Button>
-        <Button onClick={this.handleBottomButton} type="primary">
-          <Icon type="arrow-down" />
-        </Button>
+        <div>
+          <Button onClick={this.handleLeftButton} type="primary">
+            <Icon type="arrow-left" />
+          </Button>
+        </div>
+        <div>
+          <Button onClick={this.handleRightButton} type="primary">
+            <Icon type="arrow-right" />
+          </Button>
+        </div>
+        <div>
+          <Button onClick={this.handleTopButton} type="primary">
+            <Icon type="arrow-up" />
+          </Button>
+        </div>
+        <div>
+          <Button onClick={this.handleBottomButton} type="primary">
+            <Icon type="arrow-down" />
+          </Button>
+        </div>
       </div>
     );
   }

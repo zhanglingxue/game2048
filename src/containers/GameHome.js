@@ -9,16 +9,13 @@ import MainGameView from '../components/MainGame';
 import './GameHome.css';
 
 class GameHome extends React.Component {
-  componentWillMount = () => {
-    const { gameActions } = this.props;
-    gameActions.fetchGetData();
+  state = {
   }
   render() {
     const { gameActions } = this.props;
-    console.log(this.props.entities.Matrix.matrix);
     return (
       <div className="containerContent">
-        <TopCountView />
+        <TopCountView state={this.props} />
         <ResartView gameActions={gameActions} />
         <div className="control_view">
           <MainGameView
