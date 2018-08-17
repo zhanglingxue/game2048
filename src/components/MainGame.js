@@ -56,6 +56,10 @@ export default class MainGame extends React.Component {
     }
   }
   render() {
+    const { state } = this.props;
+    if (state.entities.Matrix.gameState) {
+      alert('game over!!!');
+    }
     return (
       <div className="game_container" >
         {

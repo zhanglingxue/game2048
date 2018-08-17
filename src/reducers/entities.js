@@ -17,15 +17,12 @@ function publicFunc(array) {
   }
   return array;
 }
-
 function addOneNum(state) {
   const row = state.matrix.length;
   const col = state.matrix[0].length;
-  const product = row * col;
   const newState1 = { ...state };
   const array1 = newState1.matrix.slice();
-  let count1 = 0,
-    sum = 0;
+  let count1 = 0;
   while (count1 !== 1) {
     const rowPosition1 = Math.floor(Math.random() * row);
     const colPosition1 = Math.floor(Math.random() * col);
@@ -34,14 +31,25 @@ function addOneNum(state) {
       array1[rowPosition1][colPosition1] = temp1;
       count1++;
     }
-    sum++;
-    // 判断矩阵没有空值情况(bug)
-    if (sum === product) {
-      break;
-    }
   }
   newState1.matrix = array1;
   return newState1;
+}
+function isGameOver(array) {
+  for (let r = 0; r < array.length; r++) {
+    for (let c = 0; c < array[r].length; c++) {
+      if (array[r][c] === 0) {
+        return false;
+      } else if (c < array[r].length - 1
+          && array[r][c] === array[r][c + 1]) {
+        return false;
+      } else if (r < array.length - 1
+          && array[r][c] === array[r + 1][c]) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 function Matrix(state = {
@@ -51,10 +59,12 @@ function Matrix(state = {
     [0, 0, 0, 0],
     [0, 0, 0, 0]
   ],
-  score: 0
+  score: 0,
+  gameState: false,
+  best_score: 0
 }, action) {
-  const row = state.matrix[0].length;
-  const col = state.matrix.length;
+  const col = state.matrix[0].length;
+  const row = state.matrix.length;
   switch (action.type) {
     case ActionTypes.FEFRESH_DATA: { // 刷新
       const newState = { ...state };
@@ -69,6 +79,8 @@ function Matrix(state = {
       const copeMatrix = matrix.slice();
       const newMatrix = publicFunc(copeMatrix);
       newState.matrix = newMatrix;
+      newState.score = 0;
+      newState.gameState = false;
       return newState;
     }
     case ActionTypes.CANCUL_LEFT_NUM: { // 向左走
@@ -76,36 +88,60 @@ function Matrix(state = {
       const newState = { ...state };
       const matrix = state.matrix.slice();
       let sum = state.score;
-      const allArr = [];
+      let gameState = state.gameState;
+      let move = 0;
       matrix.map(item => {
-        const array = [];
         let index = 0;
-        for (let i = 0; i < row;) {
+        let i = 0;
+        while (i < col && index + 1 < col) {
           if (item[i] !== item[index + 1] && item[index + 1] !== 0) {
             i++;
             index = i;
           } else if (item[i] !== item[index + 1] && item[index + 1] === 0) {
             index += 1;
-          } else if (item[i] === item[index + 1]) {
+          } else if (item[i] === item[index + 1] && item[i] !== 0) {
             item[i] += item[index + 1];
             sum += item[index + 1] * 2;
             item[index + 1] = 0;
             i = index + 2;
             index = i;
+            move++;
+          } else {
+            i++;
+            index = i;
           }
         }
-        item.map(idx => {
-          if (idx !== 0) {
-            array.push(idx); // 把除0以外的num拿出来
+        let m = 0;
+        let newIndex = 0;
+        while (m < col && newIndex + 1 < col) {
+          if (item[m] !== 0) {
+            m++;
+            newIndex = m;
+          } else if (item[m] === 0 && item[newIndex + 1] !== 0) {
+            item[m] = item[newIndex + 1];
+            item[newIndex + 1] = 0;
+            m++;
+            newIndex = m;
+            move++;
+          } else if (item[m] === 0 && item[newIndex + 1] === 0) {
+            newIndex += 1;
           }
-        });
-        while (array.length < row) {
-          array.push(0);
         }
-        allArr.push(array);
       });
-      newState.matrix = allArr;
+      newState.matrix = matrix;
       newState.score = sum;
+      const over = isGameOver(matrix);
+      if (over === true) {
+        gameState = over;
+        newState.gameState = gameState;
+        if (newState.score > newState.best_score) {
+          newState.best_score = newState.score;
+        }
+        return newState;
+      }
+      if (move === 0) {
+        return newState;
+      }
       const newArr = addOneNum(newState);
       return newArr;
     }
@@ -113,42 +149,68 @@ function Matrix(state = {
       const newState = { ...state };
       const matrix = state.matrix.slice();
       let sum = state.score;
-      const allArr = [];
+      let move = 0;
+      let gameState = state.gameState;
       matrix.map(item => {
-        const array = [];
         let index = row - 1;
-        for (let i = row - 1; i > 0;) {
+        let i = row - 1;
+        while (i > 0 && index - 1 >= 0) {
           if (item[i] !== item[index - 1] && item[index - 1] !== 0) {
             i--;
             index = i;
           } else if (item[i] !== item[index - 1] && item[index - 1] === 0) {
             index -= 1;
-          } else if (item[i] === item[index - 1]) {
+          } else if (item[i] === item[index - 1] && item[i] !== 0) {
             item[i] += item[index - 1];
             sum += item[index - 1] * 2;
             item[index - 1] = 0;
             i = index - 2;
             index = i;
+            move++;
+          } else {
+            i--;
+            index = i;
           }
         }
-        item.map(idx => {
-          if (idx !== 0) {
-            array.push(idx); // 把除0以外的num拿出来
+        let m = row - 1;
+        let newIndex = row - 1;
+        while (m > 0 && newIndex - 1 >= 0) {
+          if (item[m] !== 0) {
+            m--;
+            newIndex = m;
+          } else if (item[m] === 0 && item[newIndex - 1] !== 0) {
+            item[m] = item[newIndex - 1];
+            item[newIndex - 1] = 0;
+            m--;
+            newIndex = m;
+            move++;
+          } else if (item[m] === 0 && item[newIndex - 1] === 0) {
+            newIndex -= 1;
           }
-        });
-        while (array.length < row) {
-          array.unshift(0);
         }
-        allArr.push(array);
       });
-      newState.matrix = allArr;
+      newState.matrix = matrix;
       newState.score = sum;
+      const over = isGameOver(matrix);
+      if (over === true) {
+        gameState = over;
+        newState.gameState = gameState;
+        if (newState.score > newState.best_score) {
+          newState.best_score = newState.score;
+        }
+        return newState;
+      }
+      if (move === 0) {
+        return newState;
+      }
       const newArr = addOneNum(newState);
       return newArr;
     }
     case ActionTypes.CANCUL_TOP_NUM: { // 向上走
       const newState = { ...state };
       let sum = state.score;
+      let move = 0;
+      let gameState = state.gameState;
       const array = newState.matrix.slice();
       for (let i = 0; i < col; i++) {
         let index = 0;
@@ -159,14 +221,15 @@ function Matrix(state = {
             index = j;
           } else if (array[j][i] !== array[index + 1][i] && array[index + 1][i] === 0) {
             index += 1;
-          } else if (array[j][i] === array[index + 1][i]) {
+          } else if (array[j][i] === array[index + 1][i] && array[i] !== 0) {
             array[j][i] += array[index + 1][i];
             sum += array[index + 1][i] * 2;
             array[index + 1][i] = 0;
             j = index + 2;
-            if (j >= row) {
-              break;
-            }
+            index = j;
+            move++;
+          } else {
+            j++;
             index = j;
           }
         }
@@ -181,6 +244,7 @@ function Matrix(state = {
             array[newIndex + 1][i] = 0;
             m++;
             newIndex = m;
+            move++;
           } else if (array[m][i] === 0 && array[newIndex + 1][i] === 0) {
             newIndex += 1;
           }
@@ -188,12 +252,26 @@ function Matrix(state = {
       }
       newState.matrix = array;
       newState.score = sum;
-      const allArr = addOneNum(newState);
-      return allArr;
+      const over = isGameOver(array);
+      if (over === true) {
+        gameState = over;
+        newState.gameState = gameState;
+        if (newState.score > newState.best_score) {
+          newState.best_score = newState.score;
+        }
+        return newState;
+      }
+      if (move === 0) {
+        return newState;
+      }
+      const newArr = addOneNum(newState);
+      return newArr;
     }
     case ActionTypes.CANCUL_BOTTOM_NUM: { // 向下走
       const newState = { ...state };
       let sum = state.score;
+      let move = 0;
+      let gameState = state.gameState;
       const array = newState.matrix.slice();
       for (let i = 0; i < col; i++) {
         let index = row - 1;
@@ -204,14 +282,16 @@ function Matrix(state = {
             index = j;
           } else if (array[j][i] !== array[index - 1][i] && array[index - 1][i] === 0) {
             index -= 1;
-          } else if (array[j][i] === array[index - 1][i]) {
+          } else if (array[j][i] === array[index - 1][i]
+            && array[i] !== 0 && array[index + 1] !== 0) {
             array[j][i] += array[index - 1][i];
             sum += array[index - 1][i] * 2;
             array[index - 1][i] = 0;
             j = index - 2;
-            if (j <= 0) {
-              break;
-            }
+            index = j;
+            move++;
+          } else {
+            j--;
             index = j;
           }
         }
@@ -226,6 +306,7 @@ function Matrix(state = {
             array[newIndex - 1][i] = 0;
             m--;
             newIndex = m;
+            move++;
           } else if (array[m][i] === 0 && array[newIndex - 1][i] === 0) {
             newIndex -= 1;
           }
@@ -233,8 +314,20 @@ function Matrix(state = {
       }
       newState.matrix = array;
       newState.score = sum;
-      const allArr = addOneNum(newState);
-      return allArr;
+      const over = isGameOver(array);
+      if (over === true) {
+        gameState = over;
+        newState.gameState = gameState;
+        if (newState.score > newState.best_score) {
+          newState.best_score = newState.score;
+        }
+        return newState;
+      }
+      if (move === 0) {
+        return newState;
+      }
+      const newArr = addOneNum(newState);
+      return newArr;
     }
     default: {
       const newState = { ...state };
