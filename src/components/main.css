@@ -6,6 +6,7 @@
   width: 400px;
   height: 400px;
   float: left;
+  cursor: pointer;
   border-radius: 6px;
 }
 .game_container div {
@@ -22,6 +23,51 @@
   font-size: 35px;
   font-weight: bold;
 }
+
+/*通用样式*/
+ /*手机*/
+ @media screen and (max-width:600px){
+  .game_container{
+    width:200px;
+    height:200px;
+  }
+  .game_container div{
+    height: 40px;
+    width: 40px;
+    margin: 8px 0 0 8px;
+    line-height: 40px;
+    font-size: 15px;
+  }
+  
+}
+/*平板*/
+@media screen and (min-width:600px) and (max-width:960px){
+  .game_container{
+    width:350px;
+    height:350px;
+  }
+  .game_container div{
+    height: 80px;
+    width: 80px;
+    margin: 6px 0 0 6px;
+    line-height: 80px;
+    font-size: 20px;
+  }
+}
+/*PC*/
+@media screen and (min-width:960px){
+  .game_container{
+    width: 400px;
+    height: 400px;
+  }
+  .game_container div{
+    height: 85px;
+    width: 85px;
+  }
+}
+
+
+
 @keyframes fade-in {  
   0% {opacity: 0;}/*初始状态 透明度为0*/  
   40% {opacity: 0;}/*过渡状态 透明度为0*/  
@@ -50,10 +96,10 @@
   background:#bb3939!important;
 }
 .two_six_color{
-  background:#860f44!important;
+  background:#c86b85!important;
 }
 .two_seven_color{
-  background:#c86b85!important;
+  background:#860f44!important;
 }
 .two_eight_color{
   background:#d56073!important;
@@ -67,3 +113,5 @@
 .last_color{
   background:#113a5d!important;
 }
+
+

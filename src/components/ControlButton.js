@@ -20,30 +20,6 @@ export default class ControlButton extends React.Component {
     gameActions.fetchBottomCanculNum();
   }
   render() {
-    document.onkeyup = e => {
-      // keyCode(↑：38，←：37，→：39，↓：40)
-      switch (e.keyCode) {
-        case 37: {
-          this.handleLeftButton();
-          break;
-        }
-        case 39: {
-          this.handleRightButton();
-          break;
-        }
-        case 38: {
-          this.handleTopButton();
-          break;
-        }
-        case 40: {
-          this.handleBottomButton();
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    };
     return (
       <div className="control_button">
         <div>

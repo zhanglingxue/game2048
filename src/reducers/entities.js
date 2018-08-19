@@ -1,29 +1,13 @@
 import { combineReducers } from 'redux';
 import * as ActionTypes from '../const/ActionTypes';
 
-function publicFunc(array) {
-  const row = array.length;
-  const col = array[0].length;
-  let count = 0;
-  while (count !== 2) {
-    const rowPosition = Math.floor(Math.random() * row);
-    const colPosition = Math.floor(Math.random() * col);
-    const temp = Math.random() < 0.5 ? 2 : 4;
-    const data = array[rowPosition][colPosition];
-    if (data === 0) {
-      array[rowPosition][colPosition] = temp;
-      count++;
-    }
-  }
-  return array;
-}
 function addOneNum(state) {
   const row = state.matrix.length;
   const col = state.matrix[0].length;
   const newState1 = { ...state };
   const array1 = newState1.matrix.slice();
   let count1 = 0;
-  while (count1 !== 1) {
+  while (count1 === 0) {
     const rowPosition1 = Math.floor(Math.random() * row);
     const colPosition1 = Math.floor(Math.random() * col);
     const temp1 = Math.random() < 0.5 ? 2 : 4;
@@ -61,30 +45,27 @@ function Matrix(state = {
   ],
   score: 0,
   gameState: false,
-  best_score: 0
+  best_score: 0,
+  success: false
 }, action) {
   const col = state.matrix[0].length;
   const row = state.matrix.length;
   switch (action.type) {
     case ActionTypes.FEFRESH_DATA: { // 刷新
       const newState = { ...state };
-      let matrix = newState.matrix.slice();
       const array = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ];
-      matrix = array;
-      const copeMatrix = matrix.slice();
-      const newMatrix = publicFunc(copeMatrix);
-      newState.matrix = newMatrix;
+      newState.matrix = array;
       newState.score = 0;
       newState.gameState = false;
-      return newState;
+      const newArr = addOneNum(addOneNum(newState));
+      return newArr;
     }
     case ActionTypes.CANCUL_LEFT_NUM: { // 向左走
-      // keyCode(↑：38，←：37，→：39，↓：40)
       const newState = { ...state };
       const matrix = state.matrix.slice();
       let sum = state.score;
@@ -94,21 +75,28 @@ function Matrix(state = {
         let index = 0;
         let i = 0;
         while (i < col && index + 1 < col) {
-          if (item[i] !== item[index + 1] && item[index + 1] !== 0) {
+          if (item[i] === 0) {
             i++;
             index = i;
-          } else if (item[i] !== item[index + 1] && item[index + 1] === 0) {
-            index += 1;
-          } else if (item[i] === item[index + 1] && item[i] !== 0) {
-            item[i] += item[index + 1];
-            sum += item[index + 1] * 2;
-            item[index + 1] = 0;
-            i = index + 2;
-            index = i;
-            move++;
-          } else {
-            i++;
-            index = i;
+          } else if (item[i] !== 0) {
+            if (item[i] === 2048) {
+              newState.success = true;
+            }
+            if (item[i] !== item[index + 1]) {
+              if (item[index + 1] !== 0) {
+                i++;
+                index = i;
+              } else {
+                index += 1;
+              }
+            } else if (item[i] === item[index + 1]) {
+              item[i] += item[index + 1];
+              sum += item[index + 1] * 2;
+              item[index + 1] = 0;
+              i = index + 2;
+              index = i;
+              move++;
+            }
           }
         }
         let m = 0;
@@ -117,19 +105,27 @@ function Matrix(state = {
           if (item[m] !== 0) {
             m++;
             newIndex = m;
-          } else if (item[m] === 0 && item[newIndex + 1] !== 0) {
-            item[m] = item[newIndex + 1];
-            item[newIndex + 1] = 0;
-            m++;
-            newIndex = m;
-            move++;
-          } else if (item[m] === 0 && item[newIndex + 1] === 0) {
-            newIndex += 1;
+          } else if (item[m] === 0) {
+            if (item[newIndex + 1] !== 0) {
+              item[m] = item[newIndex + 1];
+              item[newIndex + 1] = 0;
+              m++;
+              newIndex = m;
+              move++;
+            } else {
+              newIndex += 1;
+            }
           }
         }
       });
       newState.matrix = matrix;
       newState.score = sum;
+      if (newState.success === true) {
+        if (newState.score > newState.best_score) {
+          newState.best_score = newState.score;
+        }
+        return newState;
+      }
       const over = isGameOver(matrix);
       if (over === true) {
         gameState = over;
@@ -155,21 +151,28 @@ function Matrix(state = {
         let index = row - 1;
         let i = row - 1;
         while (i > 0 && index - 1 >= 0) {
-          if (item[i] !== item[index - 1] && item[index - 1] !== 0) {
+          if (item[i] === 0) {
             i--;
             index = i;
-          } else if (item[i] !== item[index - 1] && item[index - 1] === 0) {
-            index -= 1;
-          } else if (item[i] === item[index - 1] && item[i] !== 0) {
-            item[i] += item[index - 1];
-            sum += item[index - 1] * 2;
-            item[index - 1] = 0;
-            i = index - 2;
-            index = i;
-            move++;
-          } else {
-            i--;
-            index = i;
+          } else if (item[i] !== 0) {
+            if (item[i] === 2048) {
+              newState.success = true;
+            }
+            if (item[i] !== item[index - 1]) {
+              if (item[index - 1] !== 0) {
+                i--;
+                index = i;
+              } else {
+                index -= 1;
+              }
+            } else {
+              item[i] += item[index - 1];
+              sum += item[index - 1] * 2;
+              item[index - 1] = 0;
+              i = index - 2;
+              index = i;
+              move++;
+            }
           }
         }
         let m = row - 1;
@@ -191,6 +194,12 @@ function Matrix(state = {
       });
       newState.matrix = matrix;
       newState.score = sum;
+      if (newState.success === true) {
+        if (newState.score > newState.best_score) {
+          newState.best_score = newState.score;
+        }
+        return newState;
+      }
       const over = isGameOver(matrix);
       if (over === true) {
         gameState = over;
@@ -216,21 +225,31 @@ function Matrix(state = {
         let index = 0;
         let j = 0;
         while (j < row && index + 1 < row) {
-          if (array[j][i] !== array[index + 1][i] && array[index + 1][i] !== 0) {
+          if (array[j][i] === 0) {
             j++;
             index = j;
-          } else if (array[j][i] !== array[index + 1][i] && array[index + 1][i] === 0) {
-            index += 1;
-          } else if (array[j][i] === array[index + 1][i] && array[i] !== 0) {
-            array[j][i] += array[index + 1][i];
-            sum += array[index + 1][i] * 2;
-            array[index + 1][i] = 0;
-            j = index + 2;
-            index = j;
-            move++;
-          } else {
-            j++;
-            index = j;
+          } else if (array[j][i] !== 0) {
+            if (array[j][i] === 2048) {
+              newState.success = true;
+            }
+            if (array[j][i] !== array[index + 1][i]) {
+              if (array[index + 1][i] !== 0) {
+                j++;
+                index = j;
+              } else {
+                index += 1;
+              }
+            } else if (array[j][i] === array[index + 1][i]) {
+              array[j][i] += array[index + 1][i];
+              sum += array[index + 1][i] * 2;
+              array[index + 1][i] = 0;
+              if (array[j][i] === 2048) {
+                newState.success = true;
+              }
+              j = index + 2;
+              index = j;
+              move++;
+            }
           }
         }
         let m = 0;
@@ -239,19 +258,27 @@ function Matrix(state = {
           if (array[m][i] !== 0) {
             m++;
             newIndex = m;
-          } else if (array[m][i] === 0 && array[newIndex + 1][i] !== 0) {
-            array[m][i] = array[newIndex + 1][i];
-            array[newIndex + 1][i] = 0;
-            m++;
-            newIndex = m;
-            move++;
-          } else if (array[m][i] === 0 && array[newIndex + 1][i] === 0) {
-            newIndex += 1;
+          } else if (array[m][i] === 0) {
+            if (array[newIndex + 1][i] !== 0) {
+              array[m][i] = array[newIndex + 1][i];
+              array[newIndex + 1][i] = 0;
+              m++;
+              newIndex = m;
+              move++;
+            } else {
+              newIndex += 1;
+            }
           }
         }
       }
       newState.matrix = array;
       newState.score = sum;
+      if (newState.success === true) {
+        if (newState.score > newState.best_score) {
+          newState.best_score = newState.score;
+        }
+        return newState;
+      }
       const over = isGameOver(array);
       if (over === true) {
         gameState = over;
@@ -277,22 +304,28 @@ function Matrix(state = {
         let index = row - 1;
         let j = row - 1;
         while (j > 0 && index - 1 >= 0) {
-          if (array[j][i] !== array[index - 1][i] && array[index - 1][i] !== 0) {
+          if (array[j][i] === 0) {
             j--;
             index = j;
-          } else if (array[j][i] !== array[index - 1][i] && array[index - 1][i] === 0) {
-            index -= 1;
-          } else if (array[j][i] === array[index - 1][i]
-            && array[i] !== 0 && array[index + 1] !== 0) {
-            array[j][i] += array[index - 1][i];
-            sum += array[index - 1][i] * 2;
-            array[index - 1][i] = 0;
-            j = index - 2;
-            index = j;
-            move++;
-          } else {
-            j--;
-            index = j;
+          } else if (array[j][i] !== 0) {
+            if (array[j][i] === 2048) {
+              newState.success = true;
+            }
+            if (array[j][i] !== array[index - 1][i]) {
+              if (array[index - 1][i] !== 0) {
+                j--;
+                index = j;
+              } else {
+                index -= 1;
+              }
+            } else if (array[j][i] === array[index - 1][i]) {
+              array[j][i] += array[index - 1][i];
+              sum += array[index - 1][i] * 2;
+              array[index - 1][i] = 0;
+              j = index - 2;
+              index = j;
+              move++;
+            }
           }
         }
         let m = row - 1;
@@ -301,19 +334,27 @@ function Matrix(state = {
           if (array[m][i] !== 0) {
             m--;
             newIndex = m;
-          } else if (array[m][i] === 0 && array[newIndex - 1][i] !== 0) {
-            array[m][i] = array[newIndex - 1][i];
-            array[newIndex - 1][i] = 0;
-            m--;
-            newIndex = m;
-            move++;
-          } else if (array[m][i] === 0 && array[newIndex - 1][i] === 0) {
-            newIndex -= 1;
+          } else if (array[m][i] === 0) {
+            if (array[newIndex - 1][i] !== 0) {
+              array[m][i] = array[newIndex - 1][i];
+              array[newIndex - 1][i] = 0;
+              m--;
+              newIndex = m;
+              move++;
+            } else {
+              newIndex -= 1;
+            }
           }
         }
       }
       newState.matrix = array;
       newState.score = sum;
+      if (newState.success === true) {
+        if (newState.score > newState.best_score) {
+          newState.best_score = newState.score;
+        }
+        return newState;
+      }
       const over = isGameOver(array);
       if (over === true) {
         gameState = over;
@@ -331,10 +372,8 @@ function Matrix(state = {
     }
     default: {
       const newState = { ...state };
-      const matrix = state.matrix.slice();
-      const newMatrix = publicFunc(matrix);
-      newState.matrix = newMatrix;
-      return newState;
+      const newArr = addOneNum(addOneNum(newState));
+      return newArr;
     }
   }
 }
