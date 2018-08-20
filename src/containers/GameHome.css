@@ -108,12 +108,13 @@ body{
  @media screen and (max-width:600px){
   .containerContent {
     width: 320px;
+    padding-top:30px;
   }  
   .title {
-    font-size: 40px;
+    font-size: 37px;
   }
   .scores, .bestScore {
-    padding: 25px 30px;
+    padding: 25px 38px;
     font-size: 5px;
     height: 25px;
     line-height: 25px;
