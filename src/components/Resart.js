@@ -2,7 +2,6 @@ import React from 'react';
 import '../containers/GameHome.css';
 
 export default class Resart extends React.Component {
-  
   handleResart = () => {
     const { gameActions } = this.props;
     gameActions.fetchResart();
