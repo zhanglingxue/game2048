@@ -5,18 +5,20 @@ function addOneNum(state) {
   const row = state.matrix.length;
   const col = state.matrix[0].length;
   const newState1 = { ...state };
-  const array1 = newState1.matrix.slice();
-  let count1 = 0;
-  while (count1 === 0) {
-    const rowPosition1 = Math.floor(Math.random() * row);
-    const colPosition1 = Math.floor(Math.random() * col);
-    const temp1 = Math.random() < 0.5 ? 2 : 4;
-    if (array1[rowPosition1][colPosition1] === 0) {
-      array1[rowPosition1][colPosition1] = temp1;
-      count1++;
+  const array = newState1.matrix.slice();
+  let count = 0;
+  while (count === 0) {
+    const rowPosition = Math.floor(Math.random() * row);
+    const colPosition = Math.floor(Math.random() * col);
+    const temp = Math.random() < 0.5 ? 2 : 4;
+    if (array[rowPosition][colPosition] === 0) {
+      array[rowPosition][colPosition] = temp;
+      newState1.newrow = rowPosition;
+      newState1.newcol = colPosition;
+      count++;
     }
   }
-  newState1.matrix = array1;
+  newState1.matrix = array;
   return newState1;
 }
 function isGameOver(array) {
@@ -46,7 +48,9 @@ function Matrix(state = {
   score: 0,
   gameState: false,
   best_score: 0,
-  success: false
+  success: false,
+  newrow: 0,
+  newcol: 0
 }, action) {
   const col = state.matrix[0].length;
   const row = state.matrix.length;
@@ -62,8 +66,8 @@ function Matrix(state = {
       newState.matrix = array;
       newState.score = 0;
       newState.gameState = false;
-      const newArr = addOneNum(addOneNum(newState));
-      return newArr;
+      const newState1 = addOneNum(addOneNum(newState));
+      return newState1;
     }
     case ActionTypes.CANCUL_LEFT_NUM: { // 向左走
       const newState = { ...state };
@@ -138,8 +142,8 @@ function Matrix(state = {
       if (move === 0) {
         return newState;
       }
-      const newArr = addOneNum(newState);
-      return newArr;
+      const newState1 = addOneNum(newState);
+      return newState1;
     }
     case ActionTypes.CANCUL_RIGHT_NUM: { // 向右走
       const newState = { ...state };
@@ -212,8 +216,8 @@ function Matrix(state = {
       if (move === 0) {
         return newState;
       }
-      const newArr = addOneNum(newState);
-      return newArr;
+      const newState1 = addOneNum(newState);
+      return newState1;
     }
     case ActionTypes.CANCUL_TOP_NUM: { // 向上走
       const newState = { ...state };
@@ -291,8 +295,8 @@ function Matrix(state = {
       if (move === 0) {
         return newState;
       }
-      const newArr = addOneNum(newState);
-      return newArr;
+      const newState1 = addOneNum(newState);
+      return newState1;
     }
     case ActionTypes.CANCUL_BOTTOM_NUM: { // 向下走
       const newState = { ...state };
@@ -367,13 +371,13 @@ function Matrix(state = {
       if (move === 0) {
         return newState;
       }
-      const newArr = addOneNum(newState);
-      return newArr;
+      const newState1 = addOneNum(newState);
+      return newState1;
     }
     default: {
       const newState = { ...state };
-      const newArr = addOneNum(addOneNum(newState));
-      return newArr;
+      const newState1 = addOneNum(addOneNum(newState));
+      return newState1;
     }
   }
 }
