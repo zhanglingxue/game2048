@@ -37,9 +37,10 @@ function isGameOver(array) {
   }
   return true;
 }
-function judgCondition(newState, matrix, sum, move) {
+function judgCondition(newState, matrix, sum, move, addNum) {
   newState.matrix = matrix;
   newState.score = sum;
+  newState.addNum = addNum;
   if (sum >= newState.best_score) {
     newState.best_score = sum;
   }
@@ -69,7 +70,8 @@ function Matrix(state = {
   best_score: 0, // 记录最好的成绩
   success: false, // 判断是否出现2048的状态值
   newrow: 0, // 随机生成元素的位置
-  newcol: 0
+  newcol: 0,
+  addNum: 0
 }, action) {
   const col = state.matrix[0].length;
   const row = state.matrix.length;
@@ -97,6 +99,7 @@ function Matrix(state = {
       const newState = { ...state };
       const matrix = state.matrix.slice();
       let sum = newState.score;
+      let addNum = 0;
       let move = 0;
       matrix.map(item => {
         let index = 0;
@@ -119,6 +122,7 @@ function Matrix(state = {
             } else if (item[i] === item[index + 1]) {
               item[i] += item[index + 1];
               sum += item[index + 1] * 2;
+              addNum += item[index + 1] * 2;
               item[index + 1] = 0;
               i = index + 2;
               index = i;
@@ -145,15 +149,15 @@ function Matrix(state = {
           }
         }
       });
-      const newState1 = judgCondition(newState, matrix, sum, move);
+      const newState1 = judgCondition(newState, matrix, sum, move, addNum);
       return newState1;
     }
     case ActionTypes.CANCUL_RIGHT_NUM: { // 向右走
       const newState = { ...state };
       const matrix = state.matrix.slice();
       let sum = newState.score;
+      let addNum = 0;
       let move = 0;
-      let gameState = newState.gameState;
       matrix.map(item => {
         let index = row - 1;
         let i = row - 1;
@@ -175,6 +179,7 @@ function Matrix(state = {
             } else {
               item[i] += item[index - 1];
               sum += item[index - 1] * 2;
+              addNum += item[index - 1] * 2;
               item[index - 1] = 0;
               i = index - 2;
               index = i;
@@ -199,12 +204,13 @@ function Matrix(state = {
           }
         }
       });
-      const newState1 = judgCondition(newState, matrix, sum, move);
+      const newState1 = judgCondition(newState, matrix, sum, move, addNum);
       return newState1;
     }
     case ActionTypes.CANCUL_TOP_NUM: { // 向上走
       const newState = { ...state };
       let sum = newState.score;
+      let addNum = 0;
       let move = 0;
       const matrix = newState.matrix.slice();
       for (let i = 0; i < col; i++) {
@@ -228,6 +234,7 @@ function Matrix(state = {
             } else if (matrix[j][i] === matrix[index + 1][i]) {
               matrix[j][i] += matrix[index + 1][i];
               sum += matrix[index + 1][i] * 2;
+              addNum += matrix[index + 1][i] * 2;
               matrix[index + 1][i] = 0;
               if (matrix[j][i] === 2048) {
                 newState.success = true;
@@ -257,12 +264,13 @@ function Matrix(state = {
           }
         }
       }
-      const newState1 = judgCondition(newState, matrix, sum, move);
+      const newState1 = judgCondition(newState, matrix, sum, move, addNum);
       return newState1;
     }
     case ActionTypes.CANCUL_BOTTOM_NUM: { // 向下走
       const newState = { ...state };
       let sum = newState.score;
+      let addNum = 0;
       let move = 0;
       const matrix = newState.matrix.slice();
       for (let i = 0; i < col; i++) {
@@ -286,6 +294,7 @@ function Matrix(state = {
             } else if (matrix[j][i] === matrix[index - 1][i]) {
               matrix[j][i] += matrix[index - 1][i];
               sum += matrix[index - 1][i] * 2;
+              addNum += matrix[index - 1][i] * 2;
               matrix[index - 1][i] = 0;
               j = index - 2;
               index = j;
@@ -312,7 +321,7 @@ function Matrix(state = {
           }
         }
       }
-      const newState1 = judgCondition(newState, matrix, sum, move);
+      const newState1 = judgCondition(newState, matrix, sum, move, addNum);
       return newState1;
     }
     default: {
