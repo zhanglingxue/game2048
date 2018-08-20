@@ -122,13 +122,13 @@ export default class MainGame extends React.Component {
     }));
   }
   render() {
-    const { state } = this.props;
-    if (state.entities.Matrix.gameState) {
-      alert('game over!!!');
-    }
-    if (state.entities.Matrix.success) {
-      alert('game success!!!!');
-    }
+    // const { state } = this.props;
+    // if (state.entities.Matrix.gameState) {
+    //   alert('game over!!!');
+    // }
+    // if (state.entities.Matrix.success) {
+    //   alert('game success!!!!');
+    // }
     document.onkeyup = e => { // 键盘事件
       // keyCode(↑：38，←：37，→：39，↓：40)
       switch (e.keyCode) {

@@ -128,22 +128,35 @@ body{
   }
   .control_view {
     width: 320px;
-    padding-left:20px;
+    padding-left:25px;
     margin-top: 35px;
   }
   .control_button {
-    width: 80px;
-    margin-top: 0px;
+    display: none;
   }
-  .ant-btn {
-    width: 60px;
-    margin-left: 0px; 
-    height: 50px;
+  .game_intro{
+    line-height: 20px;
+  }
+  .heading, .game_infor{
+    padding: 0 5px 0 5px;
   }
 }
 /*平板*/
 @media screen and (min-width:600px) and (max-width:960px){
-  
+  .containerContent {
+    width: 520px;
+  }  
+  .control_view {
+    width: 520px;
+  }
+  .control_button {
+    width: 160px;
+  }
+  .ant-btn {
+    width: 60px;
+    height: 50px;
+    margin-left: 20px;
+  }
 }
 /*PC*/
 @media screen and (min-width:960px){

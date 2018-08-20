@@ -12,7 +12,13 @@ class GameHome extends React.Component {
   state = {
   }
   render() {
-    const { gameActions } = this.props;
+    const { gameActions, entities } = this.props;
+    if (entities.Matrix.gameState) {
+      alert('game over!!!');
+    }
+    if (entities.Matrix.success) {
+      alert('game success!!!!');
+    }
     return (
       <div className="containerContent">
         <TopCountView state={this.props} />

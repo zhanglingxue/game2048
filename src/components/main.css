@@ -28,15 +28,15 @@
  /*手机*/
  @media screen and (max-width:600px){
   .game_container{
-    width:200px;
-    height:200px;
+    width:270px;
+    height:270px;
   }
   .game_container div{
-    height: 40px;
-    width: 40px;
-    margin: 8px 0 0 8px;
-    line-height: 40px;
-    font-size: 15px;
+    height: 55px;
+    width: 55px;
+    margin: 10px 0 0 10px;
+    line-height: 55px;
+    font-size: 18px;
   }
   
 }
