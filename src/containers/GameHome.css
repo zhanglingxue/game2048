@@ -102,6 +102,34 @@ body{
   height:50px;
   margin-left:240px; 
 }
+.game_over_state{
+  position: fixed;
+  bottom: 43%;
+  height:80px;
+  font-size: 18px;
+  color: #eee4da;
+  z-index: 200;
+  background: #323643;
+  opacity: 0.6;
+  left: 0;
+  right:0;
+  text-align: center;
+  line-height: 80px;
+  animation:show-in 0.5s;
+}
+@-webkit-keyframes show-in {
+  from {
+    opacity: 0;
+    bottom:0;
+  }
+  to {
+    opacity: 0.6;
+    bottom:43%;
+  }
+}
+.over_hidden{
+  display: none;
+}
 .addNumClass{
   opacity: 0;
 }
@@ -167,6 +195,7 @@ body{
   }
   .score-addition{
     top: 3px;
+    left:40px;
     font-size: 15px;
     line-height: 21px;
   }

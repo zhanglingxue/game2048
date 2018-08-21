@@ -18,8 +18,11 @@ export default class TopCounter extends React.Component {
       }, 400);
     }
   }
-  addEffect = () => {
+  addEffect = addNum => {
     if (this.state.isShowAnimation) {
+      if (addNum === 0) {
+        return 'addNumClass';
+      }
       return 'score-addition';
     }
     return 'addNumClass';
@@ -35,7 +38,7 @@ export default class TopCounter extends React.Component {
         <div className="score_container">
           <div className="scores">{score}</div>
           <div className="bestScore">{best_score}</div>
-          <div className={this.addEffect()}>+{addNum}</div>
+          <div className={this.addEffect(addNum)}>+{addNum}</div>
         </div>
       </div>
     );
