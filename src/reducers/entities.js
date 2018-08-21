@@ -76,6 +76,11 @@ function Matrix(state = {
   const col = state.matrix[0].length;
   const row = state.matrix.length;
   switch (action.type) {
+    case ActionTypes.GET_GAME_STATE: {
+      const newState = { ...state };
+      const newState1 = addOneNum(addOneNum(newState));
+      return newState1;
+    }
     case ActionTypes.FEFRESH_DATA: { // 刷新
       const newState = { ...state };
       const array = [
@@ -327,9 +332,7 @@ function Matrix(state = {
       return newState1;
     }
     default: {
-      const newState = { ...state };
-      const newState1 = addOneNum(addOneNum(newState));
-      return newState1;
+      return state;
     }
   }
 }

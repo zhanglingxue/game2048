@@ -9,6 +9,10 @@ import MainGameView from '../components/MainGame';
 import './GameHome.css';
 
 class GameHome extends React.Component {
+  componentDidMount = () => {
+    const { gameActions } = this.props;
+    gameActions.fetchGetGameState();
+  }
   onTouchStartClick = e => { // 触屏事件开始
     e.preventDefault();
     this.startX = e.touches[0].clientX;

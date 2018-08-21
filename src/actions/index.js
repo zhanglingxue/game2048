@@ -27,11 +27,17 @@ function fetchBottomCanculNum() {
     type: ActionTypes.CANCUL_BOTTOM_NUM
   };
 }
+function fetchGetGameState() {
+  return {
+    type: ActionTypes.GET_GAME_STATE
+  };
+}
 
 export {
   fetchResart,
   fetchCanculNum,
   fetchRightCanculNum,
   fetchTopCanculNum,
-  fetchBottomCanculNum
+  fetchBottomCanculNum,
+  fetchGetGameState
 };
