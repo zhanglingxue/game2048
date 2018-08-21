@@ -47,7 +47,7 @@ export default class MainGame extends React.Component {
   addClassName = num => {
     switch (num) {
       case 2: {
-        return 'game_container';
+        return '';
       }
       case 4: {
         return 'two_two_color';

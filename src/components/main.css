@@ -41,21 +41,21 @@
   
 }
 /*平板*/
-@media screen and (min-width:600px) and (max-width:960px){
+@media screen and (min-width:600px) and (max-width:1024px){
   .game_container{
-    width:350px;
-    height:350px;
+    width:400px;
+    height:400px;
   }
   .game_container div{
-    height: 80px;
-    width: 80px;
-    margin: 6px 0 0 6px;
-    line-height: 80px;
+    height: 85px;
+    width: 85px;
+    margin: 12px 0 0 12px;
+    line-height: 85px;
     font-size: 20px;
   }
 }
 /*PC*/
-@media screen and (min-width:960px){
+@media screen and (min-width:1024px){
   .game_container{
     width: 400px;
     height: 400px;
@@ -65,8 +65,6 @@
     width: 85px;
   }
 }
-
-
 
 @keyframes fade-in {  
   0% {opacity: 0;}/*初始状态 透明度为0*/  
@@ -80,8 +78,8 @@
 } 
 .active {
   animation: fade-in;/*动画名称*/  
-  animation-duration: 0.2s;/*动画持续时间*/  
-  -webkit-animation:fade-in 0.2s;/*针对webkit内核*/ 
+  animation-duration: 0.4s;/*动画持续时间*/  
+  -webkit-animation:fade-in 0.4s;/*针对webkit内核*/ 
 }
 .two_two_color{
   background:#f67280!important; 
