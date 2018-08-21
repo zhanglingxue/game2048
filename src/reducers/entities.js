@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import * as ActionTypes from '../const/ActionTypes';
 
-function addOneNum(state) {
+function addOneNum(state) { // 生成随机数
   const row = state.matrix.length;
   const col = state.matrix[0].length;
   const newState1 = { ...state };
@@ -21,7 +21,7 @@ function addOneNum(state) {
   newState1.matrix = array;
   return newState1;
 }
-function isGameOver(array) {
+function isGameOver(array) { // 死亡判断
   for (let row = 0; row < array.length; row++) {
     for (let col = 0; col < array[row].length; col++) {
       if (array[row][col] === 0) {
@@ -37,7 +37,7 @@ function isGameOver(array) {
   }
   return true;
 }
-function judgCondition(newState, matrix, sum, move, addNum) {
+function judgCondition(newState, matrix, sum, move, addNum) { // 公共部分判断胜利或死亡和生成随机数
   newState.matrix = matrix;
   newState.score = sum;
   newState.addNum = addNum;
@@ -71,7 +71,7 @@ function Matrix(state = {
   success: false, // 判断是否出现2048的状态值
   newrow: 0, // 随机生成元素的位置
   newcol: 0,
-  addNum: 0
+  addNum: 0 // 相加数值
 }, action) {
   const col = state.matrix[0].length;
   const row = state.matrix.length;
@@ -90,8 +90,8 @@ function Matrix(state = {
       const newState1 = addOneNum(addOneNum(newState));
       return newState1;
     }
-    /* 法1.此处使用方法为把数组中相邻相同元素相加，
-      循环将0元素与不为0的元素换位置。
+    /* 法1.此处采用方法为把数组中相邻相同元素相加，
+      循环将0元素与不为0的元素换位置。(指针)
       法2.可采用把所有不为0的元素抽出到新数组，
       对于相邻元素相同相加，
       对于相加后数组抽出0元素，在末尾补0，循环放回原数组。 */
@@ -104,27 +104,27 @@ function Matrix(state = {
       matrix.map(item => {
         let index = 0;
         let i = 0;
-        while (i < col && index + 1 < col) {
-          if (item[i] === 0) {
+        while (i < col && index + 1 < col) { // 循环行元素(相同元素相加)
+          if (item[i] === 0) { // 当前元素为0，++
             i++;
             index = i;
-          } else if (item[i] !== 0) {
+          } else if (item[i] !== 0) { // 当前元素不为0
             if (item[i] === 2048) {
               newState.success = true;
             }
-            if (item[i] !== item[index + 1]) {
-              if (item[index + 1] !== 0) {
+            if (item[i] !== item[index + 1]) { // 当前元素与下一位置元素(指针)比较不相同
+              if (item[index + 1] !== 0) { // 下一位置元素不为0
                 i++;
                 index = i;
-              } else {
+              } else { // 下一位置元素为0
                 index += 1;
               }
-            } else if (item[i] === item[index + 1]) {
+            } else if (item[i] === item[index + 1]) { // 当前位置与下一位置元素相同，相加
               item[i] += item[index + 1];
               sum += item[index + 1] * 2;
               addNum += item[index + 1] * 2;
               item[index + 1] = 0;
-              i = index + 2;
+              i = index + 2; // 当前i跳到下一元素之后一位
               index = i;
               move++;
             }
@@ -132,12 +132,12 @@ function Matrix(state = {
         }
         let m = 0;
         let newIndex = 0;
-        while (m < col && newIndex + 1 < col) {
+        while (m < col && newIndex + 1 < col) { // 与0换位置
           if (item[m] !== 0) {
             m++;
             newIndex = m;
           } else if (item[m] === 0) {
-            if (item[newIndex + 1] !== 0) {
+            if (item[newIndex + 1] !== 0) { // 当前元素为0，且下一元素不为0
               item[m] = item[newIndex + 1];
               item[newIndex + 1] = 0;
               m++;
