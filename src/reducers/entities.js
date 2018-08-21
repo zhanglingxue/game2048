@@ -86,6 +86,7 @@ function Matrix(state = {
       ];
       newState.matrix = array;
       newState.score = 0;
+      newState.addNum = 0;
       newState.gameState = false;
       const newState1 = addOneNum(addOneNum(newState));
       return newState1;
